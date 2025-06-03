@@ -15,7 +15,8 @@ const authenticatedUser = (username, password) => {
   //write code to check if username and password match the one we have in records.
 };
 
-const doesExist = (userName) => users.some((user) => user === userName);
+const doesExist = (userName) =>
+  users.some((user) => user.username === userName);
 
 //only registered users can login
 regd_users.post("/login", (req, res) => {
