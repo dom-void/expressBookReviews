@@ -10,7 +10,9 @@ public_users.post("/register", (req, res) => {
   if (username && password) {
     if (!doesExist(username)) {
       users.push({ username, password });
-      res.status(200).json({ message: `User ${username} successfully added` });
+      res
+        .status(200)
+        .json({ message: `User ${username} successfully added`, users });
     } else {
       res
         .status(409)
