@@ -14,7 +14,7 @@ public_users.post("/register", (req, res) => {
     } else {
       res
         .status(409)
-        .json({ message: `User with the ${username} already exists` });
+        .json({ message: `User with the name ${username} already exists` });
     }
   }
   return res.status(422).json({ message: "Unable to register user" });
