@@ -2,11 +2,21 @@ const express = require("express");
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
+const doesExist = require("./auth_users.js").doesExist;
 const public_users = express.Router();
 
 public_users.post("/register", (req, res) => {
-  //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  const { username, password } = req.body;
+  if (username && password) {
+    if (!doesExist(username)) {
+      users.push({ username, password });
+      res.status(200).json({ message: `User ${username} successfully added` });
+    } else {
+      res
+        .status(409)
+        .json({ message: `User with the ${username} already exists` });
+    }
+  }
 });
 
 // Get the book list available in the shop
