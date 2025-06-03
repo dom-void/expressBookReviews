@@ -49,9 +49,23 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const { username } = req.session.authorization;
   if (review && username) {
     books[isbn].reviews[username] = review;
-    return res.send(`${username} user review: ${review} to the book '${books[isbn].title}'`);
+    return res.send(
+      `${username} user review: ${review} to the book '${books[isbn].title}' has been added`
+    );
   }
   return res.status(422).json({ message: "Review data incomplete" });
+});
+
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+  const { isbn } = req.params;
+  const { username } = req.session.authorization;
+  if (books[isbn]?.reviews[username]) {
+    delete books[isbn].reviews[username];
+    return res.send(
+      `${username} user review for the book '${books[isbn].title}' has been deleted`
+    );
+  }
+  return res.status(404).json({ message: "No such entry" });
 });
 
 module.exports.authenticated = regd_users;
