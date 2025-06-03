@@ -10,15 +10,14 @@ public_users.post("/register", (req, res) => {
   if (username && password) {
     if (!doesExist(username)) {
       users.push({ username, password });
-      res
-        .status(200)
-        .json({ message: `User ${username} successfully added`, users });
+      res.status(200).json({ message: `User ${username} successfully added` });
     } else {
       res
         .status(409)
         .json({ message: `User with the ${username} already exists` });
     }
   }
+  return res.status(422).json({ message: "Unable to register user" });
 });
 
 // Get the book list available in the shop
