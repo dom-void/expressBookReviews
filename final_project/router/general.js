@@ -42,13 +42,13 @@ public_users.get("/isbn/:isbn", async function (req, res) {
 });
 
 // Get book details based on author
-public_users.get("/author/:author", function (req, res) {
+public_users.get("/author/:author", async function (req, res) {
   const { author } = req.params;
-  const booksByAuthor = Object.values(books).filter(
-    (book) => book.author === author
+  const booksByAuthor = await new Promise((res, rej) =>
+    res(Object.values(books).filter((book) => book.author === author))
   );
   if (booksByAuthor.length) {
-    return res.send(JSON.stringify(booksByAuthor));
+    return res.json(booksByAuthor);
   } else {
     return res.status(404).json({ message: "Resource not found" });
   }
