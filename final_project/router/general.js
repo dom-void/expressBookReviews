@@ -21,8 +21,9 @@ public_users.post("/register", (req, res) => {
 });
 
 // Get the book list available in the shop
-public_users.get("/", function (req, res) {
-  return res.send(JSON.stringify(books));
+public_users.get("/", async function (req, res) {
+  const getBooks = new Promise((res, rej) => res(books));
+  return res.json(await getBooks);
 });
 
 // Get book details based on ISBN
