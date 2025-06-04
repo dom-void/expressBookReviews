@@ -27,13 +27,17 @@ public_users.get("/", async function (req, res) {
 });
 
 // Get book details based on ISBN
-public_users.get("/isbn/:isbn", function (req, res) {
+public_users.get("/isbn/:isbn", async function (req, res) {
   const { isbn } = req.params;
-  const selectedBook = books[isbn];
-  if (selectedBook) {
-    return res.send(JSON.stringify(selectedBook));
+  if (isbn) {
+    const selectedBook = await new Promise((res, rej) => res(books[isbn]));
+    if (selectedBook) {
+      return res.send(JSON.stringify(selectedBook));
+    } else {
+      return res.status(404).json({ message: "Resource not found" });
+    }
   } else {
-    return res.status(404).json({ message: "Resource not found" });
+    return res.status(422).json({ message: "Query data incomplete" });
   }
 });
 
